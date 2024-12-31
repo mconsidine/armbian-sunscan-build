@@ -49,10 +49,13 @@ jobs:
       - name: Stages
         run: |
           echo "0"
+          #this has prerun.sh in it as well :
           ls -lha ./pi-gen-sunscan
           echo "1"
           ls -lha ./pi-gen-sunscan/00-install
           echo "3"
+          ls -lha ./pi-gen-sunscan/01-prepare-repo
+          echo "4"
           ls -lha ./pi-gen-sunscan/02-copy-app
           echo "5"
           ls -lha ./pi-gen-sunscan/03-inti
