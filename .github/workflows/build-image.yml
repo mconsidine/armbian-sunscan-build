@@ -46,33 +46,33 @@ jobs:
           } &&
           chmod +x pi-gen-sunscan/01-prepare-repo/00-run.sh
     
-      - name: Stages
-        run: |
-          echo "0"
-          cd ./pi-gen-sunscan
-          echo "1"
-          ls -lha
-          echo "2"
-          cd ./pi-gen-sunscan/00-install
-          echo "3"
-          ls -lha
-          echo "4"
-          cd ./pi-gen-sunscan/02-copy-app
-          echo "5"
-          ls -lha
-          echo "6"
-          cd ./pi-gen-sunscan/03-inti
-          echo "7"
-          ls -lha
-          echo "8"
-          cd ./pi-gen-sunscan/04-system
-          echo "9"
-          ls -lha
-          echo "10"
-          cd ./pi-gen-sunscan/01-prepare-repo
-          echo "11"
-          ls -lha
-          echo "12"
+      #- name: Stages
+      #  run: |
+      #    echo "0"
+      #    cd ./pi-gen-sunscan
+      #    echo "1"
+      #    ls -lha
+      #    echo "2"
+      #    cd ./pi-gen-sunscan/00-install
+      #    echo "3"
+      #    ls -lha
+      #    echo "4"
+      #    cd ./pi-gen-sunscan/02-copy-app
+      #    echo "5"
+      #    ls -lha
+      #    echo "6"
+      #    cd ./pi-gen-sunscan/03-inti
+      #    echo "7"
+      #    ls -lha
+      #    echo "8"
+      #    cd ./pi-gen-sunscan/04-system
+      #    echo "9"
+      #    ls -lha
+      #    echo "10"
+      #    cd ./pi-gen-sunscan/01-prepare-repo
+      #    echo "11"
+      #    ls -lha
+      #    echo "12"
           
       #- uses: usimd/pi-gen-action@v1
       #  id: build
