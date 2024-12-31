@@ -32,7 +32,8 @@ jobs:
             echo "APP_VERSION=${BRANCH}_${COMMIT}" >> $GITHUB_ENV
             echo "IMGFILENAME=sunscan_os_${BRANCH}_${COMMIT}" >> $GITHUB_ENV
           fi
-          
+
+      - name: Prep gen-sunscan
       - run: |
           {
           mkdir -p pi-gen-sunscan/01-prepare-repo
@@ -181,36 +182,34 @@ jobs:
           ls -lha
           echo "listing of ./output/images/*.xz"
           ls -lha *.xz
-          echo "copy output"
-          cp *.* /home/.github/
           echo ${{ env.IMGFILENAME }}
           echo ${{ steps.build.outputs.image-path }}
-          ls /home/build/output/images/*.xz
+          ls ./build/output/images/*.xz
           
       - name: Stages
         run: |
           echo "0"
-          cd /home/pi-gen-sunscan
+          cd ./pi-gen-sunscan
           echo "1"
           ls -lha
           echo "2"
-          cd /home/pi-gen-sunscan/00-install
+          cd ./pi-gen-sunscan/00-install
           echo "3"
           ls -lha
           echo "4"
-          cd /home/pi-gen-sunscan/02-copy-app
+          cd ./pi-gen-sunscan/02-copy-app
           echo "5"
           ls -lha
           echo "6"
-          cd /home/pi-gen-sunscan/03-inti
+          cd ./pi-gen-sunscan/03-inti
           echo "7"
           ls -lha
           echo "8"
-          cd /home/pi-gen-sunscan/04-system
+          cd ./pi-gen-sunscan/04-system
           echo "9"
           ls -lha
           echo "10"
-          cd /home/pi-gen-sunscan/01-prepare-repo
+          cd ./pi-gen-sunscan/01-prepare-repo
           echo "11"
           ls -lha
           echo "12"
@@ -219,7 +218,7 @@ jobs:
         with:
           name: ${{ env.IMGFILENAME }}
           #path: ${{ steps.build.outputs.image-path }}
-          path: /home/build/output/images/*.xz
+          path: ./build/output/images/*.xz
           
       #- name: Release
       #  uses: softprops/action-gh-release@v2
