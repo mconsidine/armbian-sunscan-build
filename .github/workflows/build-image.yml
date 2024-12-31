@@ -64,6 +64,25 @@ jobs:
           echo "9"
           ls -lha ./pi-gen-sunscan/01-prepare-repo
           echo "11"
+          {
+          cat > userpatches/customize-image.sh <<-EOF
+          #!/bin/bash
+          sudo ./pi-gen-sunscan/prerun.sh
+          echo "WE ARE HERE
+          cat ./pi-gen-sunscan/00-install/00-packages
+          xargs sudo apt-get -y install < ./pi-gen-sunscan/00-install/00-packages
+          echo "WE ARE HERE TOO"
+          sudo ./pi-gen-sunscan/01-prepare-repo/00_run.sh
+          sudo ./pi-gen-sunscan/02-copy-app/00_run.sh
+          sudo ./pi-gen-sunscan/03-inti/00_run-chroot.sh         
+          sudo ./pi-gen-sunscan/04-system/00_run-chroot.sh             
+          sudo ./pi-gen-sunscan/04-system/01_run-chroot.sh             
+          sudo ./pi-gen-sunscan/04-system/02_run-chroot.sh             
+          sudo ./pi-gen-sunscan/04-system/03_run-chroot.sh                       
+          EOF
+          } &&
+          chmod +x userpatches/customize-image.sh   
+          echo "12"
           
       #- uses: usimd/pi-gen-action@v1
       #  id: build
