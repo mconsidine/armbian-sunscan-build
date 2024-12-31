@@ -165,10 +165,10 @@ jobs:
           echo "9"
           ls -lha ./pi-gen-sunscan/01-prepare-repo
           echo "11"
-          ls ./build
+          ls -lha ./build
           echo "THAT SHOULD BE BUILD?"
           {
-          cat > ./build/userpatches/customize-image.sh <<-EOF
+          cat > ./userpatches/customize-image.sh <<-EOF
           #!/bin/bash
           ls -lha
           sudo ./pi-gen-sunscan/prerun.sh
@@ -185,8 +185,8 @@ jobs:
           sudo ./pi-gen-sunscan/04-system/03_run-chroot.sh                       
           EOF
           } &&
-          chmod +x ./build/userpatches/customize-image.sh   
-          ls -lha ./build/userpatches/customize-image.sh
+          chmod +x ./userpatches/customize-image.sh   
+          ls -lha ./userpatches/customize-image.sh
           echo "12"
           
       - name: Configure build
