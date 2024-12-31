@@ -175,14 +175,14 @@ jobs:
           cd build
           ls -lha
           cd output
-          ls -lha ./output
+          ls -lha
           cd images
           echo "listing of ./output/images"
-          ls -lha ./output/images
+          ls -lha
           echo "listing of ./output/images/*.xz"
-          ls -lha ./output/images/*.xz
+          ls -lha *.xz
           echo "copy output"
-          cp ./output/images/*.* ../
+          cp *.* ../../../
           echo ${{ env.IMGFILENAME }}
           echo ${{ steps.build.outputs.image-path }}
           
