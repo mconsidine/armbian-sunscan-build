@@ -64,7 +64,8 @@ jobs:
           echo "9"
           ls -lha ./pi-gen-sunscan/01-prepare-repo
           echo "11"
-          cd ./build
+          ls .
+          echo "THAT SHOULD BE BUILD?"
           {
           cat > userpatches/customize-image.sh <<-EOF
           #!/bin/bash
