@@ -64,6 +64,7 @@ jobs:
           echo "9"
           ls -lha ./pi-gen-sunscan/01-prepare-repo
           echo "11"
+          cd ./build
           {
           cat > userpatches/customize-image.sh <<-EOF
           #!/bin/bash
@@ -82,6 +83,7 @@ jobs:
           EOF
           } &&
           chmod +x userpatches/customize-image.sh   
+          ls -lha ./userpatches/customize-image.sh
           echo "12"
           
       #- uses: usimd/pi-gen-action@v1
@@ -188,7 +190,7 @@ jobs:
       - name: Configure build
         id: build
         run: |
-          cd build
+          cd ./build
           ./compile.sh EXPERT=yes \
             BOARD=rockpi-4bplus \
             BRANCH=current \
@@ -212,18 +214,18 @@ jobs:
 
       - name: Check file structure
         run: |
-          cd build
+          cd ./build
           ls -lha
-          cd output
+          cd ./output
           ls -lha
-          cd images
+          cd ./images
           echo "listing of ./output/images"
           ls -lha
           echo "listing of ./output/images/*.xz"
           ls -lha *.xz
           echo ${{ env.IMGFILENAME }}
           echo ${{ steps.build.outputs.image-path }}
-          ls build/output/images/*.xz
+          ls ./build/output/images/*.xz
       
       - uses: actions/upload-artifact@v4
         with:
