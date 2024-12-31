@@ -182,9 +182,10 @@ jobs:
           echo "listing of ./output/images/*.xz"
           ls -lha *.xz
           echo "copy output"
-          cp *.* ../../../
+          cp *.* /home/.github/
           echo ${{ env.IMGFILENAME }}
           echo ${{ steps.build.outputs.image-path }}
+          ls /home/build/output/images/*.xz
           
       - name: Stages
         run: |
@@ -217,7 +218,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.IMGFILENAME }}
-          path: ${{ steps.build.outputs.image-path }}
+          #path: ${{ steps.build.outputs.image-path }}
+          path: /home/build/output/images/*.xz
           
       #- name: Release
       #  uses: softprops/action-gh-release@v2
