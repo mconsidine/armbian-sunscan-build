@@ -149,15 +149,14 @@ jobs:
         id: build
         run: |
           cd build
-          echo "TEST"
-          #./compile.sh EXPERT=yes \
-          #  BOARD=rockpi-4bplus \
-          #  BRANCH=current \
-          #  RELEASE=bookworm \
-          #  BUILD_MINIMAL=yes \
-          #  KERNEL_CONFIGURE=no \
-          #  COMPRESS_OUTPUTIMAGE=xz \
-          #  IMAGE_XZ_COMPRESSION_RATIO=6
+          ./compile.sh EXPERT=yes \
+            BOARD=rockpi-4bplus \
+            BRANCH=current \
+            RELEASE=bookworm \
+            BUILD_MINIMAL=yes \
+            KERNEL_CONFIGURE=no \
+            COMPRESS_OUTPUTIMAGE=xz \
+            IMAGE_XZ_COMPRESSION_RATIO=6
             
             #ENABLE_SSH=yes \
             #HOSTNAME=sunscan_test \
