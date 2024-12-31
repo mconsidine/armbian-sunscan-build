@@ -183,6 +183,8 @@ jobs:
           ls -lha ./output/images
           echo "listing of ./output/images/*.xz"
           ls -lha ./output/images/*.xz
+          echo "copy output"
+          cp ./output/image/*.* ../
       
       - uses: actions/upload-artifact@v4
         with:
