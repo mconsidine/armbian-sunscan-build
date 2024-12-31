@@ -173,9 +173,7 @@ jobs:
 
       - name: Check file structure
         run: |
-          #cd ..
-          #ls -lha
-          #cd build
+          cd build
           ls -lha
           cd output
           ls -lha ./output
@@ -186,7 +184,9 @@ jobs:
           ls -lha ./output/images/*.xz
           echo "copy output"
           cp ./output/images/*.* ../
-      
+          echo ${{ env.IMGFILENAME }}
+          echo ${{ steps.build.outputs.image-path }}
+          
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.IMGFILENAME }}
