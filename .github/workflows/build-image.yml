@@ -149,14 +149,15 @@ jobs:
         id: build
         run: |
           cd build
-          ./compile.sh EXPERT=yes \
-            BOARD=rockpi-4bplus \
-            BRANCH=current \
-            RELEASE=bookworm \
-            BUILD_MINIMAL=yes \
-            KERNEL_CONFIGURE=no \
-            COMPRESS_OUTPUTIMAGE=xz \
-            IMAGE_XZ_COMPRESSION_RATIO=6
+          echo "TEST"
+          #./compile.sh EXPERT=yes \
+          #  BOARD=rockpi-4bplus \
+          #  BRANCH=current \
+          #  RELEASE=bookworm \
+          #  BUILD_MINIMAL=yes \
+          #  KERNEL_CONFIGURE=no \
+          #  COMPRESS_OUTPUTIMAGE=xz \
+          #  IMAGE_XZ_COMPRESSION_RATIO=6
             
             #ENABLE_SSH=yes \
             #HOSTNAME=sunscan_test \
@@ -175,16 +176,16 @@ jobs:
           #cd ..
           #ls -lha
           #cd build
-          #ls -lha
-          #cd output
-          #ls -lha ./output
-          #cd images
+          ls -lha
+          cd output
+          ls -lha ./output
+          cd images
           echo "listing of ./output/images"
           ls -lha ./output/images
           echo "listing of ./output/images/*.xz"
           ls -lha ./output/images/*.xz
           echo "copy output"
-          cp ./output/image/*.* ../
+          cp ./output/images/*.* ../
       
       - uses: actions/upload-artifact@v4
         with:
