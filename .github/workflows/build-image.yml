@@ -186,6 +186,34 @@ jobs:
           echo ${{ env.IMGFILENAME }}
           echo ${{ steps.build.outputs.image-path }}
           
+      - name: Stages
+        run: |
+          echo "0"
+          cd /home/pi-gen-sunscan
+          echo "1"
+          ls -lha
+          echo "2"
+          cd /home/pi-gen-sunscan/00-install
+          echo "3"
+          ls -lha
+          echo "4"
+          cd /home/pi-gen-sunscan/02-copy-app
+          echo "5"
+          ls -lha
+          echo "6"
+          cd /home/pi-gen-sunscan/03-inti
+          echo "7"
+          ls -lha
+          echo "8"
+          cd /home/pi-gen-sunscan/04-system
+          echo "9"
+          ls -lha
+          echo "10"
+          cd /home/pi-gen-sunscan/01-prepare-repo
+          echo "11"
+          ls -lha
+          echo "12"
+          
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.IMGFILENAME }}
