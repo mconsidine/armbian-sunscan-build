@@ -214,24 +214,21 @@ jobs:
 
       - name: Check file structure
         run: |
-          cd ./build
-          ls -lha
-          cd ./output
-          ls -lha
-          cd ./images
-          echo "listing of ./output/images"
-          ls -lha
-          echo "listing of ./output/images/*.xz"
-          ls -lha *.xz
+          echo "listing of .build/"        
+          ls -lha ./build
+          echo "listing of .build/output/"          
+          ls -lha ./build/output
+          echo "listing of .build/output/images/"
+          ls -lha ./build/output/images
+          echo "listing of .build/output/images/*.xz"
+          ls -lha ./build/output/images/*.xz
           echo ${{ env.IMGFILENAME }}
-          echo ${{ steps.build.outputs.image-path }}
-          ls ./build/output/images/*.xz
       
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ env.IMGFILENAME }}
           #path: ${{ steps.build.outputs.image-path }}
-          path: build/output/images/*.xz
+          path: ./build/output/images/*.xz
           
       #- name: Release
       #  uses: softprops/action-gh-release@v2
