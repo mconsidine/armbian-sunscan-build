@@ -46,8 +46,7 @@ jobs:
           #cat > ./pi-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF        
           #!/bin/bash
           git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
-          
-          'EOF'
+          EOF
           
       - name: Set up install packages script
         run: |
@@ -72,8 +71,7 @@ jobs:
               sudo apt-get install -y "$package"
             fi
           done < "$PACKAGES_FILE"
-          
-          'EOF'
+          EOF
 
       - name: Set up folders and scripts in userpatches for customize image script to use
         run: |
@@ -92,12 +90,17 @@ jobs:
           #cp -a ../package_backend.py ./userpatches/overlay/repo/
           #cp -a ../reset_hotspot.sh ./userpatches/overlay/repo/
           #cp -a ../sunscan_backend_source.zip ./userpatches/overlay/repo/
-          
-          chmod + ../pi-gen-sunscan/prerun.sh
-          ../pi-gen-sunscan/prerun.sh
-          
-          chmod + ../pi-gen-sunscan/00-install/install-packages.sh
-          ../pi-gen-sunscan/00-install/install-packages.sh
+
+          cp -a ../pi-gen-sunscan/prerun.sh .
+          chmod +x prerun.sh
+          ./prerun.sh
+          rm prerun.sh
+
+          cp -a ../pi-gen-sunscan/00-install/00-packages .
+          cp -a ../pi-gen-sunscan/00-install/install-packages .          
+          chmod +x install-packages.sh
+          ./install-packages.sh
+          rm install-packages.sh
           
           #cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh ./userpatches/overlay/00-run.sh
           #cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh ./userpatches/overlay/01-run.sh
@@ -188,8 +191,7 @@ jobs:
           ##set +x
 
           echo "Customizations applied successfully."
-
-          'EOF'
+          EOF
 
       #    ls -lha ./
       #    echo "WHERE WE ARE TOO"
