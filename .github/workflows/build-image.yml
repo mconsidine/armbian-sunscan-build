@@ -85,13 +85,6 @@ jobs:
       #- name: Install packages from 00-packages
       #  run: ./pi-gen-sunscan/00-install/install_packages.sh
 
-      - uses: armbian/build@main
-        with:
-          armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
-          armbian_release:   "jammy"                        # userspace
-          armbian_target:    "build"                        # build=image, kernel=kernel
-          armbian_board:     "bananapim5"                   # build target
-          
       #- uses: usimd/pi-gen-action@v1
       #  id: build
       #  with:
