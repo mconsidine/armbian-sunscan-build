@@ -55,7 +55,7 @@ jobs:
           #!/bin/bash
 
           # Path to the 00-packages file
-          PACKAGES_FILE="./pi-gen-sunscan/00-install/00-packages"
+          PACKAGES_FILE="./00-packages"
           ls -lha ./
           echo "WERE NOW HERE"
           # Check if the packages file exists
