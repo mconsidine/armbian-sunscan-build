@@ -108,7 +108,7 @@ jobs:
           #rm 00-run.sh
           git clone https://github.com/mconsidine/armbian-sunscan-build.git --branch main --depth 1 ./tmp/repo
  
-          ls -lha ./tmp
+          ls -lha ./tmp/repo
           echo "START OF APP INSTALL"
           
           cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh .          
