@@ -238,7 +238,23 @@ jobs:
           cp ../pi-gen-sunscan/04-system/01-run-chroot.sh  ./userpatches/overlay/02-run-chroot.sh
           cp ../pi-gen-sunscan/04-system/02-run-chroot.sh  ./userpatches/overlay/03-run-chroot.sh
           cp ../pi-gen-sunscan/04-system/03-run-chroot.sh  ./userpatches/overlay/04-run-chroot.sh
-                    
+          
+          # Make our custom scripts executable
+          #TODO: can overlay have subfolders?
+          #TODO: this should be a loop
+          ls -lha ./
+          echo "WHERE WE ARE"
+          ls -lha ./userpatches/overlay/
+          chmod +x ./userpatches/overlay/prerun.sh
+          chmod +x ./userpatches/overlay/install-packages.sh
+          chmod +x ./userpatches/overlay/00-run.sh          
+          chmod +x ./userpatches/overlay/01-run.sh
+          chmod +x ./userpatches/overlay/00-run-chroot.sh
+          chmod +x ./userpatches/overlay/01-run-chroot.sh
+          chmod +x ./userpatches/overlay/02-run-chroot.sh
+          chmod +x ./userpatches/overlay/03-run-chroot.sh
+          chmod +x ./userpatches/overlay/04-run-chroot.sh
+          
           #Create script to customize OS build
           cat << 'EOF' > ./userpatches/customize-image.sh
           #!/bin/bash
@@ -274,22 +290,6 @@ jobs:
 
           # Debug output
           #set -x
-
-          # Make our custom scripts executable and run them in sequence
-          #TODO: can overlay have subfolders?
-          #TODO: this should be a loop
-          ls -lha ./
-          echo "WHERE WE ARE"
-          ls -lha ./tmp/overlay/
-          chmod +x ./tmp/overlay/prerun.sh
-          chmod +x ./tmp/overlay/install-packages.sh
-          chmod +x ./tmp/overlay/00-run.sh          
-          chmod +x ./tmp/overlay/01-run.sh
-          chmod +x ./tmp/overlay/00-run-chroot.sh
-          chmod +x ./tmp/overlay/01-run-chroot.sh
-          chmod +x ./tmp/overlay/02-run-chroot.sh
-          chmod +x ./tmp/overlay/03-run-chroot.sh
-          chmod +x ./tmp/overlay/04-run-chroot.sh
 
           # Execute scripts in order
           #TODO: can overlay have subfolders?          
