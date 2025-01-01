@@ -233,7 +233,7 @@ jobs:
           cp ../pi-gen-sunscan/00-install/install-packages.sh ./userpatches/overlay/install-packages.sh
           cp ../pi-gen-sunscan/01-prepare-repo/00-run.sh ./userpatches/overlay/00-run.sh
           cp ../pi-gen-sunscan/02-copy-app/00-run.sh ./userpatches/overlay/01-run.sh
-          cp ../pi-gen-sunscan/03-inti/00-run-chroot.sh  ./userpatches/overlay/00-run_chroot.sh
+          cp ../pi-gen-sunscan/03-inti/00-run-chroot.sh  ./userpatches/overlay/00-run-chroot.sh
           cp ../pi-gen-sunscan/04-system/00-run-chroot.sh  ./userpatches/overlay/01-run-chroot.sh
           cp ../pi-gen-sunscan/04-system/01-run-chroot.sh  ./userpatches/overlay/02-run-chroot.sh
           cp ../pi-gen-sunscan/04-system/02-run-chroot.sh  ./userpatches/overlay/03-run-chroot.sh
