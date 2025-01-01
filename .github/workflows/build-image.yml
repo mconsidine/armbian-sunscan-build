@@ -91,10 +91,10 @@ jobs:
           #cp -a ../reset_hotspot.sh ./userpatches/overlay/repo/
           #cp -a ../sunscan_backend_source.zip ./userpatches/overlay/repo/
 
-          cp -a ../pi-gen-sunscan/prerun.sh .
-          chmod +x prerun.sh
-          ./prerun.sh
-          rm prerun.sh
+          ###cp -a ../pi-gen-sunscan/prerun.sh .
+          ###chmod +x prerun.sh
+          ###./prerun.sh
+          ###rm prerun.sh
 
           cp -a ../pi-gen-sunscan/00-install/00-packages .
           cp -a ../pi-gen-sunscan/00-install/install-packages .          
