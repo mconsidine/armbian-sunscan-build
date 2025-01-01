@@ -97,7 +97,7 @@ jobs:
           ###rm prerun.sh
 
           cp -a ../pi-gen-sunscan/00-install/00-packages .
-          cp -a ../pi-gen-sunscan/00-install/install-packages .          
+          cp -a ../pi-gen-sunscan/00-install/install-packages.sh .          
           chmod +x install-packages.sh
           ./install-packages.sh
           rm install-packages.sh
