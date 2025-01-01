@@ -42,22 +42,23 @@ jobs:
       - name: Set up prepare-repo script
         run: |
           mkdir -p ./pi-gen-sunscan/01-prepare-repo
-          #cat << 'EOF' > ./pi-gen-sunscan/01-prepare-repo/00-run.sh
-          cat > ./pi-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF        
+          cat << 'EOF' > ./pi-gen-sunscan/01-prepare-repo/00-run.sh
+          #cat > ./pi-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF        
           #!/bin/bash
           git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
           
-          EOF
+          'EOF'
           
       - name: Set up install packages script
         run: |
-          #cat << 'EOF' > ./pi-gen-sunscan/00-install/install-packages.sh
-          cat > ./pi-gen-sunscan/00-install/install-packages.sh <<-EOF          
+          cat << 'EOF' > ./pi-gen-sunscan/00-install/install-packages.sh
+          #cat > ./pi-gen-sunscan/00-install/install-packages.sh <<-EOF          
           #!/bin/bash
 
           # Path to the 00-packages file
-          PACKAGES_FILE="./00-packages"
-
+          PACKAGES_FILE="./pi-gen-sunscan/00-install/00-packages"
+          ls -lha ./
+          echo "WERE NOW HERE"
           # Check if the packages file exists
           if [ ! -f "$PACKAGES_FILE" ]; then
             echo "Packages file not found: $PACKAGES_FILE"
@@ -72,7 +73,7 @@ jobs:
             fi
           done < "$PACKAGES_FILE"
           
-          EOF
+          'EOF'
 
       - name: Set up folders and scripts in userpatches for customize image script to use
         run: |
@@ -92,9 +93,12 @@ jobs:
           #cp -a ../reset_hotspot.sh ./userpatches/overlay/repo/
           #cp -a ../sunscan_backend_source.zip ./userpatches/overlay/repo/
           
-          #cp -a ../pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
-          #cp -a ../pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
-          #cp -a ../pi-gen-sunscan/00-install/install-packages.sh ./userpatches/overlay/install-packages.sh
+          chmod + ../pi-gen-sunscan/prerun.sh
+          ../pi-gen-sunscan/prerun.sh
+          
+          chmod + ../pi-gen-sunscan/00-install/install-packages.sh
+          ../pi-gen-sunscan/00-install/install-packages.sh
+          
           #cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh ./userpatches/overlay/00-run.sh
           #cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh ./userpatches/overlay/01-run.sh
           #cp -a ../pi-gen-sunscan/03-inti/00-run-chroot.sh  ./userpatches/overlay/00-run-chroot.sh
@@ -123,8 +127,8 @@ jobs:
 
       - name: Create script to customize OS build
         run: |
-          #cat << 'EOF' > ./userpatches/customize-image.sh
-          cat > ./userpatches/customize-image.sh <<-EOF
+          cat << 'EOF' > ./userpatches/customize-image.sh
+          #cat > ./userpatches/customize-image.sh <<-EOF
           #!/bin/bash
           
           # Set timezone
@@ -185,7 +189,7 @@ jobs:
 
           echo "Customizations applied successfully."
 
-          EOF          
+          'EOF'
 
       #    ls -lha ./
       #    echo "WHERE WE ARE TOO"
