@@ -113,7 +113,7 @@ jobs:
           
           cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh .          
           chmod +x 00-run.sh
-          ./00-run.sh
+          sudo ./00-run.sh
           rm 00-run.sh
 
           ls -lha ./tmp/repo
