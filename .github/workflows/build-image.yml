@@ -121,7 +121,7 @@ jobs:
           #chmod +x ./userpatches/overlay/03-run-chroot.sh
           #chmod +x ./userpatches/overlay/04-run-chroot.sh
 
-      -name: Create script to customize OS build
+      - name: Create script to customize OS build
         run: |
           #cat << 'EOF' > ./userpatches/customize-image.sh
           cat > ./userpatches/customize-image.sh <<-EOF
