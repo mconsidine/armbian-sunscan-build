@@ -228,16 +228,16 @@ jobs:
           #TODO: can overlay have subfolders??
           #TODO: this should be automated to loop through pi-gen-sunscan
           mkdir -p ./userpatches/overlay/
-          cp ./pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
-          cp ./pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
-          cp ./pi-gen-sunscan/00-install/install_packages.sh ./userpatches/overlay/install_packages.sh
-          cp ./pi-gen-sunscan/01-prepare-repo/00_run.sh ./userpatches/overlay/00_run.sh
-          cp ./pi-gen-sunscan/02-copy-app/00_run.sh ./userpatches/overlay/01_run.sh
-          cp ./pi-gen-sunscan/03-inti/00_run-chroot.sh  ./userpatches/overlay/00_run_chroot.sh
-          cp ./pi-gen-sunscan/04-system/00_run-chroot.sh  ./userpatches/overlay/01_run-chroot.sh
-          cp ./pi-gen-sunscan/04-system/01_run-chroot.sh  ./userpatches/overlay/02_run-chroot.sh
-          cp ./pi-gen-sunscan/04-system/02_run-chroot.sh  ./userpatches/overlay/03_run-chroot.sh
-          cp ./pi-gen-sunscan/04-system/03_run-chroot.sh  ./userpatches/overlay/04_run-chroot.sh
+          cp ../pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
+          cp ../pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
+          cp ../pi-gen-sunscan/00-install/install_packages.sh ./userpatches/overlay/install_packages.sh
+          cp ../pi-gen-sunscan/01-prepare-repo/00_run.sh ./userpatches/overlay/00_run.sh
+          cp ../pi-gen-sunscan/02-copy-app/00_run.sh ./userpatches/overlay/01_run.sh
+          cp ../pi-gen-sunscan/03-inti/00_run-chroot.sh  ./userpatches/overlay/00_run_chroot.sh
+          cp ../pi-gen-sunscan/04-system/00_run-chroot.sh  ./userpatches/overlay/01_run-chroot.sh
+          cp ../pi-gen-sunscan/04-system/01_run-chroot.sh  ./userpatches/overlay/02_run-chroot.sh
+          cp ../pi-gen-sunscan/04-system/02_run-chroot.sh  ./userpatches/overlay/03_run-chroot.sh
+          cp ../pi-gen-sunscan/04-system/03_run-chroot.sh  ./userpatches/overlay/04_run-chroot.sh
                     
           #Create script to customize OS build
           cat << 'EOF' > ./userpatches/customize-image.sh
