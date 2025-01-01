@@ -101,15 +101,48 @@ jobs:
           chmod +x install-packages.sh
           ./install-packages.sh
           rm install-packages.sh
+
+          cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh .          
+          chmod +x 00-run.sh
+          ./00-run.sh
+          rm 00-run.sh
+
+          ls -lha
+          echo "START OF APP INSTALL"
           
-          #cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh ./userpatches/overlay/00-run.sh
-          #cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh ./userpatches/overlay/01-run.sh
-          #cp -a ../pi-gen-sunscan/03-inti/00-run-chroot.sh  ./userpatches/overlay/00-run-chroot.sh
-          #cp -a ../pi-gen-sunscan/04-system/00-run-chroot.sh  ./userpatches/overlay/01-run-chroot.sh
-          #cp -a ../pi-gen-sunscan/04-system/01-run-chroot.sh  ./userpatches/overlay/02-run-chroot.sh
-          #cp -a ../pi-gen-sunscan/04-system/02-run-chroot.sh  ./userpatches/overlay/03-run-chroot.sh
-          #cp -a ../pi-gen-sunscan/04-system/03-run-chroot.sh  ./userpatches/overlay/04-run-chroot.sh
+          cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh .          
+          chmod +x 00-run.sh
+          ./00-run.sh
+          rm 00-run.sh
+
+          ls -lha ./
+          echo "IS APP SHOWN?"
+
+          cp -a ../pi-gen-sunscan/03-inti/00-run-chroot.sh .          
+          chmod +x 00-run-chroot.sh
+          ./00-run-chroot.sh
+          rm 00-run-chroot.sh
+
+          cp -a ../pi-gen-sunscan/04-system/00-run-chroot.sh .          
+          chmod +x 00-run-chroot.sh
+          ./00-run-chroot.sh
+          rm 00-run-chroot.sh
+
+          cp -a ../pi-gen-sunscan/04-system/01-run-chroot.sh .          
+          chmod +x 01-run-chroot.sh
+          ./01-run-chroot.sh
+          rm 01-run-chroot.sh
           
+          cp -a ../pi-gen-sunscan/04-system/02-run-chroot.sh .          
+          chmod +x 02-run-chroot.sh
+          ./02-run-chroot.sh
+          rm 02-run-chroot.sh
+
+          cp -a ../pi-gen-sunscan/04-system/03-run-chroot.sh .          
+          chmod +x 03-run-chroot.sh
+          ./03-run-chroot.sh
+          rm 03-run-chroot.sh
+
           # Make our custom scripts executable
           #TODO: can overlay have subfolders?
           #TODO: this should be a loop
@@ -168,40 +201,9 @@ jobs:
           #echo "$USERNAME:$PASSWORD" | chpasswd
           #usermod -aG sudo $USERNAME
 
-          ## Debug output
-          ##set -x
-          
-          #ls -lha ../
-          #ls -lah ../tmp
-          #echo "WHERE WE WERE2"
-          #ls -lha ./
-          #ls -lha ./tmp
-          #echo "WHERE WE ARE2"
-          
-          ## Execute scripts in order
-          ##TODO: can overlay have subfolders?          
-          ##TODO: this should be a loop
-          #cd ./tmp/overlay/
-          #./prerun.sh
-          #./install-packages.sh
-          #./00-run.sh          
-          #./01-run.sh
-          #./00-run-chroot.sh
-          #./01-run-chroot.sh
-          #./02-run-chroot.sh
-          #./03-run-chroot.sh
-          #./04-run-chroot.sh
-
-          ## Debug output
-          ##set +x
-
           echo "Customizations applied successfully."
+          
           EOF
-
-      #    ls -lha ./
-      #    echo "WHERE WE ARE TOO"
-      #    ls -lha ./userpatches/customize-image.sh
-      #    chmod +x ./userpatches/customize-image.sh  
 
       #- name: Stages
       #  run: |
