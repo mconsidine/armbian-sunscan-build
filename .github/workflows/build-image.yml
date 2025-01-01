@@ -79,49 +79,50 @@ jobs:
           cd ./build
           mkdir -p ./userpatches
 
-          # Create overlay directory and copy scripts
-          #TODO: can overlay have subfolders??
-          #TODO: this should be automated to loop through pi-gen-sunscan
-          mkdir -p ./userpatches/overlay/
-          mkdir -p ./userpatches/overlay/repo/
+          ## Create overlay directory and copy scripts
+          ##TODO: can overlay have subfolders??
+          ##TODO: this should be automated to loop through pi-gen-sunscan
+          #mkdir -p ./userpatches/overlay/
+          #mkdir -p ./userpatches/overlay/repo/
           
-          cp -a ../system ./userpatches/overlay/repo/
-          cp -a ../app ./userpatches/overlay/repo/          
-          cp -a ../webapp ./userpatches/overlay/repo/
-          cp -a ../package_backend.py ./userpatches/overlay/repo/
-          cp -a ../reset_hotspot.sh ./userpatches/overlay/repo/
-          cp -a ../sunscan_backend_source.zip ./userpatches/overlay/repo/
+          #cp -a ../system ./userpatches/overlay/repo/
+          #cp -a ../app ./userpatches/overlay/repo/          
+          #cp -a ../webapp ./userpatches/overlay/repo/
+          #cp -a ../package_backend.py ./userpatches/overlay/repo/
+          #cp -a ../reset_hotspot.sh ./userpatches/overlay/repo/
+          #cp -a ../sunscan_backend_source.zip ./userpatches/overlay/repo/
           
-          cp -a ../pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
-          cp -a ../pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
-          cp -a ../pi-gen-sunscan/00-install/install-packages.sh ./userpatches/overlay/install-packages.sh
-          cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh ./userpatches/overlay/00-run.sh
-          cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh ./userpatches/overlay/01-run.sh
-          cp -a ../pi-gen-sunscan/03-inti/00-run-chroot.sh  ./userpatches/overlay/00-run-chroot.sh
-          cp -a ../pi-gen-sunscan/04-system/00-run-chroot.sh  ./userpatches/overlay/01-run-chroot.sh
-          cp -a ../pi-gen-sunscan/04-system/01-run-chroot.sh  ./userpatches/overlay/02-run-chroot.sh
-          cp -a ../pi-gen-sunscan/04-system/02-run-chroot.sh  ./userpatches/overlay/03-run-chroot.sh
-          cp -a ../pi-gen-sunscan/04-system/03-run-chroot.sh  ./userpatches/overlay/04-run-chroot.sh
+          #cp -a ../pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
+          #cp -a ../pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
+          #cp -a ../pi-gen-sunscan/00-install/install-packages.sh ./userpatches/overlay/install-packages.sh
+          #cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh ./userpatches/overlay/00-run.sh
+          #cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh ./userpatches/overlay/01-run.sh
+          #cp -a ../pi-gen-sunscan/03-inti/00-run-chroot.sh  ./userpatches/overlay/00-run-chroot.sh
+          #cp -a ../pi-gen-sunscan/04-system/00-run-chroot.sh  ./userpatches/overlay/01-run-chroot.sh
+          #cp -a ../pi-gen-sunscan/04-system/01-run-chroot.sh  ./userpatches/overlay/02-run-chroot.sh
+          #cp -a ../pi-gen-sunscan/04-system/02-run-chroot.sh  ./userpatches/overlay/03-run-chroot.sh
+          #cp -a ../pi-gen-sunscan/04-system/03-run-chroot.sh  ./userpatches/overlay/04-run-chroot.sh
           
           # Make our custom scripts executable
           #TODO: can overlay have subfolders?
           #TODO: this should be a loop
-          ls -lha ../
-          echo "WHERE WE WERE"
-          ls -lha ./
-          echo "WHERE WE ARE"
-          ls -lha ./userpatches/overlay/
-          chmod +x ./userpatches/overlay/prerun.sh
-          chmod +x ./userpatches/overlay/install-packages.sh
-          chmod +x ./userpatches/overlay/00-run.sh          
-          chmod +x ./userpatches/overlay/01-run.sh
-          chmod +x ./userpatches/overlay/00-run-chroot.sh
-          chmod +x ./userpatches/overlay/01-run-chroot.sh
-          chmod +x ./userpatches/overlay/02-run-chroot.sh
-          chmod +x ./userpatches/overlay/03-run-chroot.sh
-          chmod +x ./userpatches/overlay/04-run-chroot.sh
-          
-          #Create script to customize OS build
+          #ls -lha ../
+          #echo "WHERE WE WERE"
+          #ls -lha ./
+          #echo "WHERE WE ARE"
+          #ls -lha ./userpatches/overlay/
+          #chmod +x ./userpatches/overlay/prerun.sh
+          #chmod +x ./userpatches/overlay/install-packages.sh
+          #chmod +x ./userpatches/overlay/00-run.sh          
+          #chmod +x ./userpatches/overlay/01-run.sh
+          #chmod +x ./userpatches/overlay/00-run-chroot.sh
+          #chmod +x ./userpatches/overlay/01-run-chroot.sh
+          #chmod +x ./userpatches/overlay/02-run-chroot.sh
+          #chmod +x ./userpatches/overlay/03-run-chroot.sh
+          #chmod +x ./userpatches/overlay/04-run-chroot.sh
+
+      -name: Create script to customize OS build
+        run: |
           #cat << 'EOF' > ./userpatches/customize-image.sh
           cat > ./userpatches/customize-image.sh <<-EOF
           #!/bin/bash
@@ -147,40 +148,40 @@ jobs:
           echo "sunscan-armbian" > /etc/hostname
           sed -i 's/127.0.1.1.*/127.0.1.1\tsunscan-armbian/' /etc/hosts
 
-          # Create an initial user
-          USERNAME="admin"
-          PASSWORD="sunscan"  # Change to a secure password
-          echo "Creating initial user $USERNAME..."
-          useradd -m -s /bin/bash $USERNAME
-          echo "$USERNAME:$PASSWORD" | chpasswd
-          usermod -aG sudo $USERNAME
+          ## Create an initial user
+          #USERNAME="admin"
+          #PASSWORD="sunscan"  # Change to a secure password
+          #echo "Creating initial user $USERNAME..."
+          #useradd -m -s /bin/bash $USERNAME
+          #echo "$USERNAME:$PASSWORD" | chpasswd
+          #usermod -aG sudo $USERNAME
 
-          # Debug output
-          #set -x
+          ## Debug output
+          ##set -x
           
-          ls -lha ../
-          ls -lah ../tmp
-          echo "WHERE WE WERE2"
-          ls -lha ./
-          ls -lha ./tmp
-          echo "WHERE WE ARE2"
+          #ls -lha ../
+          #ls -lah ../tmp
+          #echo "WHERE WE WERE2"
+          #ls -lha ./
+          #ls -lha ./tmp
+          #echo "WHERE WE ARE2"
           
-          # Execute scripts in order
-          #TODO: can overlay have subfolders?          
-          #TODO: this should be a loop
-          cd ./tmp/overlay/
-          ./prerun.sh
-          ./install-packages.sh
-          ./00-run.sh          
-          ./01-run.sh
-          ./00-run-chroot.sh
-          ./01-run-chroot.sh
-          ./02-run-chroot.sh
-          ./03-run-chroot.sh
-          ./04-run-chroot.sh
+          ## Execute scripts in order
+          ##TODO: can overlay have subfolders?          
+          ##TODO: this should be a loop
+          #cd ./tmp/overlay/
+          #./prerun.sh
+          #./install-packages.sh
+          #./00-run.sh          
+          #./01-run.sh
+          #./00-run-chroot.sh
+          #./01-run-chroot.sh
+          #./02-run-chroot.sh
+          #./03-run-chroot.sh
+          #./04-run-chroot.sh
 
-          # Debug output
-          #set +x
+          ## Debug output
+          ##set +x
 
           echo "Customizations applied successfully."
 
@@ -242,7 +243,7 @@ jobs:
             BRANCH=current \
             RELEASE=bookworm \
             BUILD_MINIMAL=yes \
-            BUILD_DESKTOP=no \
+            BUILD_DESKTOP=yes \
             KERNEL_CONFIGURE=no \
             COMPRESS_OUTPUTIMAGE=xz \
             IMAGE_XZ_COMPRESSION_RATIO=6 \
