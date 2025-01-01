@@ -82,13 +82,16 @@ jobs:
           # Create overlay directory and copy scripts
           #TODO: can overlay have subfolders??
           #TODO: this should be automated to loop through pi-gen-sunscan
-          mkdir -p ./userpatches/overlay/repo/
-          cp -a ../system ./userpatches/overlay/repo/
-          mkdir -p ./userpatches/overlay/repo/
-          cp -a ../app ./userpatches/overlay/repo/          
-          mkdir -p ./userpatches/overlay/repo/webapp
-          cp -a ../webapp ./userpatches/overlay/
           mkdir -p ./userpatches/overlay/
+          mkdir -p ./userpatches/overlay/repo/
+          
+          cp -a ../system ./userpatches/overlay/repo/
+          cp -a ../app ./userpatches/overlay/repo/          
+          cp -a ../webapp ./userpatches/overlay/repo/
+          cp -a ../package_backend.py ./userpatches/overlay/repo/
+          cp -a ../reset_hotspot.sh ./userpatches/overlay/repo/
+          cp -a ../sunscan_backend_source.zip ./userpatches/overlay/repo/
+          
           cp -a ../pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
           cp -a ../pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
           cp -a ../pi-gen-sunscan/00-install/install-packages.sh ./userpatches/overlay/install-packages.sh
