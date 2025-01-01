@@ -168,15 +168,16 @@ jobs:
           # Execute scripts in order
           #TODO: can overlay have subfolders?          
           #TODO: this should be a loop
-          ./tmp/overlay/prerun.sh
-          ./tmp/overlay/install-packages.sh
-          ./tmp/overlay/00-run.sh          
-          ./tmp/overlay/01-run.sh
-          ./tmp/overlay/00-run-chroot.sh
-          ./tmp/overlay/01-run-chroot.sh
-          ./tmp/overlay/02-run-chroot.sh
-          ./tmp/overlay/03-run-chroot.sh
-          ./tmp/overlay/04-run-chroot.sh
+          cd ./tmp/overlay/
+          ./prerun.sh
+          ./install-packages.sh
+          ./00-run.sh          
+          ./01-run.sh
+          ./00-run-chroot.sh
+          ./01-run-chroot.sh
+          ./02-run-chroot.sh
+          ./03-run-chroot.sh
+          ./04-run-chroot.sh
 
           # Debug output
           #set +x
