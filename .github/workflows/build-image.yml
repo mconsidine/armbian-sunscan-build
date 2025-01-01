@@ -96,7 +96,7 @@ jobs:
           ###./prerun.sh
           ###rm prerun.sh
 
-          apt-get install -y git
+          sudo apt-get install -y git
           
           cp -a ../pi-gen-sunscan/00-install/00-packages .
           cp -a ../pi-gen-sunscan/00-install/install-packages.sh .          
