@@ -18,6 +18,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v4
+        with:
+          platforms: all
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+    
       - name: Determine version
         id: vars
         run: |
@@ -34,17 +43,54 @@ jobs:
             echo "IMGFILENAME=sunscan_os_${BRANCH}_${COMMIT}" >> $GITHUB_ENV
           fi
 
-      - name: Prep gen-sunscan
-        run: |
-          {
-          mkdir -p pi-gen-sunscan/01-prepare-repo
-          cat > pi-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
-          #!/bin/bash
-          git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
+      #- name: Prep gen-sunscan
+      #  run: |
+      #    {
+      #    mkdir -p pi-gen-sunscan/01-prepare-repo
+      #    cat > pi-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
+      #    #!/bin/bash
+      #    git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
+      #    
+      #    EOF
+      #    } &&
+      #    chmod +x pi-gen-sunscan/01-prepare-repo/00-run.sh
           
-          EOF
-          } &&
-          chmod +x pi-gen-sunscan/01-prepare-repo/00-run.sh
+      #- name: Create install script for packages
+      #  run: |
+      #    cat << 'EOF' > ./pi-gen-sunscan/00-install/install_scripts.sh
+      #    #!/bin/bash
+
+      #    # Path to the 00-packages file
+      #    PACKAGES_FILE="./00-packages"
+
+      #    # Check if the packages file exists
+      #    if [ ! -f "$PACKAGES_FILE" ]; then
+      #      echo "Packages file not found: $PACKAGES_FILE"
+      #      exit 1
+      #    fi
+
+      #    # Read the packages file and install each package
+      #    while IFS= read -r package; do
+      #      if [ -n "$package" ]; then
+      #        echo "Installing package: $package"
+      #        sudo apt-get install -y "$package"
+      #      fi
+      #    done < "$PACKAGES_FILE"
+          
+      #    EOF
+
+      #- name: Make install_packages.sh executable
+      #  run: chmod +x ./pi-gen-sunscan/00-install/install_packages.sh
+
+      #- name: Install packages from 00-packages
+      #  run: ./pi-gen-sunscan/00-install/install_packages.sh
+
+      - uses: armbian/build@main
+        with:
+          armbian_token:     "${{ secrets.GITHUB_TOKEN }}"  # GitHub token
+          armbian_release:   "jammy"                        # userspace
+          armbian_target:    "build"                        # build=image, kernel=kernel
+          armbian_board:     "bananapim5"                   # build target
           
       #- uses: usimd/pi-gen-action@v1
       #  id: build
@@ -147,73 +193,189 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/armbian/build.git
 
-      - name: Stages
+      - name: Set up prepare-repo script
         run: |
-          echo "0"
-          #this has prerun.sh in it as well :
-          ls -lha ./pi-gen-sunscan
-          echo "1"
-          ls -lha ./pi-gen-sunscan/00-install
-          echo "3"
-          ls -lha ./pi-gen-sunscan/01-prepare-repo
-          echo "4"
-          ls -lha ./pi-gen-sunscan/02-copy-app
-          echo "5"
-          ls -lha ./pi-gen-sunscan/03-inti
-          echo "7"
-          ls -lha ./pi-gen-sunscan/04-system
-          echo "9"
-          ls -lha ./pi-gen-sunscan/01-prepare-repo
-          echo "11"
-          ls -lha ./build
-          echo "THAT SHOULD BE BUILD?"
-          #{
-          #cat > ./userpatches/customize-image.sh <<-EOF
-          ##!/bin/bash
-          #ls -lha
-          #sudo ./pi-gen-sunscan/prerun.sh
-          #echo "WE ARE HERE
-          #cat ./pi-gen-sunscan/00-install/00-packages
-          #xargs sudo apt-get -y install < ./pi-gen-sunscan/00-install/00-packages
-          #echo "WE ARE HERE TOO"
-          #sudo ./pi-gen-sunscan/01-prepare-repo/00_run.sh
-          #sudo ./pi-gen-sunscan/02-copy-app/00_run.sh
-          #sudo ./pi-gen-sunscan/03-inti/00_run-chroot.sh         
-          #sudo ./pi-gen-sunscan/04-system/00_run-chroot.sh             
-          #sudo ./pi-gen-sunscan/04-system/01_run-chroot.sh             
-          #sudo ./pi-gen-sunscan/04-system/02_run-chroot.sh             
-          #sudo ./pi-gen-sunscan/04-system/03_run-chroot.sh                       
-          #EOF
-          #} &&
-          #chmod +x ./userpatches/customize-image.sh   
-          #ls -lha ./userpatches/customize-image.sh
-          echo "12"
+          mkdir -p ./pi-gen-sunscan/01-prepare-repo
+          cat << 'EOF' > .pi-gen-sunscan/01-prepare-repo/00-run.sh         
+          #!/bin/bash
+          git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
+          
+          EOF
+          
+      - name: Set up install packages script
+        run: |
+          cat << 'EOF' > ./pi-gen-sunscan/00-install/install_scripts.sh
+          #!/bin/bash
+
+          # Path to the 00-packages file
+          PACKAGES_FILE="./pi-gen-sunscan/00-install/00-packages"
+
+          # Check if the packages file exists
+          if [ ! -f "$PACKAGES_FILE" ]; then
+            echo "Packages file not found: $PACKAGES_FILE"
+            exit 1
+          fi
+
+          # Read the packages file and install each package
+          while IFS= read -r package; do
+            if [ -n "$package" ]; then
+              echo "Installing package: $package"
+              sudo apt-get install -y "$package"
+            fi
+          done < "$PACKAGES_FILE"
+          
+          EOF
+
+      - name: Set up folders and scripts in userpatches for customize image script to use
+        run: |
+          cd ./build
+          mkdir -p ./userpatches
+
+          # Create overlay directory and copy scripts
+          #TODO: can overlay have subfolders??
+          #TODO: this should be automated to loop through pi-gen-sunscan
+          mkdir -p ./userpatches/overlay/
+          cp ./pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
+          cp ./pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
+          cp ./pi-gen-sunscan/00-install/install_packages.sh ./userpatches/overlay/install_packages.sh
+          cp ./pi-gen-sunscan/01-prepare-repo/00_run.sh ./userpatches/overlay/00_run.sh
+          cp ./pi-gen-sunscan/02-copy-app/00_run.sh ./userpatches/overlay/01_run.sh
+          cp ./pi-gen-sunscan/03-inti/00_run-chroot.sh  ./userpatches/overlay/00_run_chroot.sh
+          cp ./pi-gen-sunscan/04-system/00_run-chroot.sh  ./userpatches/overlay/01_run-chroot.sh
+          cp ./pi-gen-sunscan/04-system/01_run-chroot.sh  ./userpatches/overlay/02_run-chroot.sh
+          cp ./pi-gen-sunscan/04-system/02_run-chroot.sh  ./userpatches/overlay/03_run-chroot.sh
+          cp ./pi-gen-sunscan/04-system/03_run-chroot.sh  ./userpatches/overlay/04_run-chroot.sh
+                    
+          #Create script to customize OS build
+          cat << 'EOF' > ./userpatches/customize-image.sh
+          #!/bin/bash
+          
+          # Set timezone
+          echo "Setting timezone to America/New_York..."
+          echo "America/New_York" > /etc/timezone
+          ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
+
+          # Set locale
+          echo "Setting locale to en_US.UTF-8..."
+          sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+          locale-gen
+          update-locale LANG=en_US.UTF-8
+
+          # Enable SSH
+          echo "Enabling SSH..."
+          systemctl enable ssh
+          systemctl start ssh
+
+          # Set hostname
+          echo "Setting hostname to sunscan-armbian..."
+          echo "sunscan-armbian" > /etc/hostname
+          sed -i 's/127.0.1.1.*/127.0.1.1\tsunscan-armbian/' /etc/hosts
+
+          # Create an initial user
+          USERNAME="admin"
+          PASSWORD="sunscan"  # Change to a secure password
+          echo "Creating initial user $USERNAME..."
+          useradd -m -s /bin/bash $USERNAME
+          echo "$USERNAME:$PASSWORD" | chpasswd
+          usermod -aG sudo $USERNAME
+
+          # Debug output
+          set -x
+        
+          # Make our custom scripts executable and run them in sequence
+          #TODO: can overlay have subfolders?
+          #TODO: this should be a loop
+          chmod +x /tmp/overlay/prerun.sh
+          chmod +x /tmp/overlay/install_packages.sh
+          chmod +x /tmp/overlay/00-run.sh          
+          chmod +x /tmp/overlay/01-run.sh
+          chmod +x /tmp/overlay/00-run-chroot.sh
+          chmod +x /tmp/overlay/01-run-chroot.sh
+          chmod +x /tmp/overlay/02-run-chroot.sh
+          chmod +x /tmp/overlay/03-run-chroot.sh
+          chmod +x /tmp/overlay/04-run-chroot.sh
+          
+          # Execute scripts in order
+          #TODO: can overlay have subfolders?          
+          #TODO: this should be a loop
+          /tmp/overlay/prerun.sh
+          /tmp/overlay/install_packages.sh
+          /tmp/overlay/00-run.sh          
+          /tmp/overlay/01-run.sh
+          /tmp/overlay/00-run-chroot.sh
+          /tmp/overlay/01-run-chroot.sh
+          /tmp/overlay/02-run-chroot.sh
+          /tmp/overlay/03-run-chroot.sh
+          /tmp/overlay/04-run-chroot.sh
+        
+          # Debug output
+          set +x
+
+          echo "Customizations applied successfully."
+          EOF          
+
+          chmod +x ./userpatches/customize-image.sh  
+          ls -lha ./userpatches/customize-image.sh
+
+      #- name: Stages
+      #  run: |
+      #    echo "0"
+      #    #this has prerun.sh in it as well :
+      #    ls -lha ./pi-gen-sunscan
+      #    echo "1"
+      #    ls -lha ./pi-gen-sunscan/00-install
+      #    echo "3"
+      #    ls -lha ./pi-gen-sunscan/01-prepare-repo
+      #    echo "4"
+      #    ls -lha ./pi-gen-sunscan/02-copy-app
+      #    echo "5"
+      #    ls -lha ./pi-gen-sunscan/03-inti
+      #    echo "7"
+      #    ls -lha ./pi-gen-sunscan/04-system
+      #    echo "9"
+      #    ls -lha ./pi-gen-sunscan/01-prepare-repo
+      #    echo "11"
+      #    ls -lha ./build
+      #    echo "THAT SHOULD BE BUILD"
+      #    #{
+      #    #cat > ./userpatches/customize-image.sh <<-EOF
+      #    ##!/bin/bash
+      #    #ls -lha
+      #    #sudo ./pi-gen-sunscan/prerun.sh
+      #    #echo "WE ARE HERE
+      #    #cat ./pi-gen-sunscan/00-install/00-packages
+      #    #xargs sudo apt-get -y install < ./pi-gen-sunscan/00-install/00-packages
+      #    #echo "WE ARE HERE TOO"
+      #    #sudo ./pi-gen-sunscan/01-prepare-repo/00_run.sh
+      #    #sudo ./pi-gen-sunscan/02-copy-app/00_run.sh
+      #    #sudo ./pi-gen-sunscan/03-inti/00_run-chroot.sh         
+      #    #sudo ./pi-gen-sunscan/04-system/00_run-chroot.sh             
+      #    #sudo ./pi-gen-sunscan/04-system/01_run-chroot.sh             
+      #    #sudo ./pi-gen-sunscan/04-system/02_run-chroot.sh             
+      #    #sudo ./pi-gen-sunscan/04-system/03_run-chroot.sh                       
+      #    #EOF
+      #    #} &&
+      #    #chmod +x ./userpatches/customize-image.sh   
+      #    #ls -lha ./userpatches/customize-image.sh
+      #    echo "12"
           
       - name: Configure build
         id: build
         run: |
-          #cd ./build
-          ./build/compile.sh EXPERT=yes \
+          cd ./build
+          ./compile.sh EXPERT=yes \
             BOARD=rockpi-4bplus \
             BRANCH=current \
             RELEASE=bookworm \
             BUILD_MINIMAL=yes \
+            BUILD_DESKTOP=no \
+            KERNEL_ONLY=no \
             KERNEL_CONFIGURE=no \
             COMPRESS_OUTPUTIMAGE=xz \
-            IMAGE_XZ_COMPRESSION_RATIO=6
-            
-            #ENABLE_SSH=yes \
-            #HOSTNAME=sunscan_test \
-            #IMAGE_NAME=${{ env.IMGFILENAME }} \
-            #KEYBOARD_KEYMAP=${{ env.KEYBOARD_KEYMAP }} \
-            #KEYBOARD_LAYOUT=${{ env.KEYBOARD_LAYOUT }} \
-            #LOCALE=${{ env.LOCALE }} \
-            #ROOTPWD=${{ env.ROOTPWD }} \
-            #FIRST_USER_NAME=${{ env.FIRST_USER_NAME }} \
-            #FIRST_USER_PASS=${{ env.FIRST_USER_PASS }} \
-            #TZ=${{ env.TZ }} #\
-            #STAGE_LIST=${{ env.STAGE_LIST }}
-
+            IMAGE_XZ_COMPRESSION_RATIO=6 \
+            INCLUDE_HOME_DIR=yes \
+            USE_CUSTOM_OVERLAY=yes
+          
       - name: Check file structure
         run: |
           echo "listing of .build/"        
@@ -225,15 +387,27 @@ jobs:
           echo "listing of .build/output/images/*.xz"
           ls -lha ./build/output/images/*.xz
           echo ${{ env.IMGFILENAME }}
-      
-      - uses: actions/upload-artifact@v4
+
+      - name: Get current date
+        id: date
+        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.IMGFILENAME }}
+          name: ${{ env.IMGFILENAME }}-${{ env.DATE }}
           #path: ${{ steps.build.outputs.image-path }}
           path: ./build/output/images/*.xz
+          retention-days: 5
           
       #- name: Release
       #  uses: softprops/action-gh-release@v2
       #  if: startsWith(github.ref, 'refs/tags/')
       #  with:
       #      files: ${{ steps.build.outputs.image-path }}
+
+      #- name: Cleanup
+      #  if: always()
+      #  run: |
+      #    sudo rm -rf armbian-build
+      #    df -h      
