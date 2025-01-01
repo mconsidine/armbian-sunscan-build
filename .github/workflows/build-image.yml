@@ -82,6 +82,12 @@ jobs:
           # Create overlay directory and copy scripts
           #TODO: can overlay have subfolders??
           #TODO: this should be automated to loop through pi-gen-sunscan
+          mkdir -p ./userpatches/overlay/repo/
+          cp ../system ./userpatches/overlay/repo/
+          mkdir -p ./userpatches/overlay/repo/
+          cp ../app ./userpatches/overlay/repo/          
+          mkdir -p ./userpatches/overlay/repo/webapp
+          cp ../webapp ./userpatches/overlay/
           mkdir -p ./userpatches/overlay/
           cp ../pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
           cp ../pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
@@ -176,10 +182,10 @@ jobs:
 
           EOF          
 
-          ls -lha ./
-          echo "WHERE WE ARE TOO"
-          ls -lha ./userpatches/customize-image.sh
-          chmod +x ./userpatches/customize-image.sh  
+      #    ls -lha ./
+      #    echo "WHERE WE ARE TOO"
+      #    ls -lha ./userpatches/customize-image.sh
+      #    chmod +x ./userpatches/customize-image.sh  
 
       #- name: Stages
       #  run: |
