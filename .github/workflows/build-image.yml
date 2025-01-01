@@ -189,7 +189,7 @@ jobs:
       - name: Set up prepare-repo script
         run: |
           mkdir -p ./pi-gen-sunscan/01-prepare-repo
-          cat << 'EOF' > ./pi-gen-sunscan/01-prepare-repo/00-run.sh         
+          cat << 'EOF' > ./pi-gen-sunscan/01-prepare-repo/00_run.sh         
           #!/bin/bash
           git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
           
