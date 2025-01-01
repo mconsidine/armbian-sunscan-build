@@ -130,6 +130,11 @@ jobs:
 
       - name: Create script to customize OS build
         run: |
+          ls -lha ./
+          echo "FIRST HERE"
+          cd ./build
+          ls -lha ./
+          echo "THEN HERE"
           cat << 'EOF' > ./userpatches/customize-image.sh
           #cat > ./userpatches/customize-image.sh <<-EOF
           #!/bin/bash
