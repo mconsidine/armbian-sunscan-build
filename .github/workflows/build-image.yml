@@ -362,7 +362,6 @@ jobs:
             RELEASE=bookworm \
             BUILD_MINIMAL=yes \
             BUILD_DESKTOP=no \
-            KERNEL_ONLY=no \
             KERNEL_CONFIGURE=no \
             COMPRESS_OUTPUTIMAGE=xz \
             IMAGE_XZ_COMPRESSION_RATIO=6 \
