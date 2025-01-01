@@ -96,19 +96,18 @@ jobs:
           ###./prerun.sh
           ###rm prerun.sh
 
-          sudo apt-get install -y git
-          
           cp -a ../pi-gen-sunscan/00-install/00-packages .
           cp -a ../pi-gen-sunscan/00-install/install-packages.sh .          
           chmod +x install-packages.sh
           ./install-packages.sh
           rm install-packages.sh
 
-          cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh .          
-          chmod +x 00-run.sh
-          ./00-run.sh
-          rm 00-run.sh
-
+          #cp -a ../pi-gen-sunscan/01-prepare-repo/00-run.sh .          
+          #chmod +x 00-run.sh
+          #./00-run.sh
+          #rm 00-run.sh
+          git clone https://github.com/mconsidine/armbian-sunscan-build.git --branch main --depth 1 ./tmp/repo
+ 
           ls -lha
           echo "START OF APP INSTALL"
           
