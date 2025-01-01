@@ -189,7 +189,7 @@ jobs:
       - name: Set up prepare-repo script
         run: |
           mkdir -p ./pi-gen-sunscan/01-prepare-repo
-          cat << 'EOF' > .pi-gen-sunscan/01-prepare-repo/00-run.sh         
+          cat << 'EOF' > ./pi-gen-sunscan/01-prepare-repo/00-run.sh         
           #!/bin/bash
           git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
           
@@ -201,7 +201,7 @@ jobs:
           #!/bin/bash
 
           # Path to the 00-packages file
-          PACKAGES_FILE="./pi-gen-sunscan/00-install/00-packages"
+          PACKAGES_FILE="./00-packages"
 
           # Check if the packages file exists
           if [ ! -f "$PACKAGES_FILE" ]; then
