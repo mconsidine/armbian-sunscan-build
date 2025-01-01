@@ -228,6 +228,9 @@ jobs:
           #TODO: can overlay have subfolders??
           #TODO: this should be automated to loop through pi-gen-sunscan
           mkdir -p ./userpatches/overlay/
+          ls -lha ./
+          echo "UP ONE"
+          ls -lha ../
           cp ../pi-gen-sunscan/prerun.sh ./userpatches/overlay/prerun.sh
           cp ../pi-gen-sunscan/00-install/00-packages ./userpatches/overlay/00-packages
           cp ../pi-gen-sunscan/00-install/install_packages.sh ./userpatches/overlay/install_packages.sh
