@@ -35,6 +35,36 @@ jobs:
             echo "IMGFILENAME=sunscan_os_${BRANCH}_${COMMIT}" >> $GITHUB_ENV
           fi
 
+        
+      - name: Set up environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git \
+            curl \
+            unzip \
+            wget \
+            xz-utils
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y \
+            gcc \
+            g++ \
+            make \
+            bc \
+            bison \
+            flex \
+            libssl-dev \
+            libncurses5-dev \
+            libncursesw5-dev \
+            qemu-user-static \
+            debootstrap \
+            binfmt-support \
+            build-essential \
+            u-boot-tools \
+            device-tree-compiler
+
       - name: Clone Armbian build repository
         run: |
           git clone --depth 1 https://github.com/armbian/build.git
@@ -109,6 +139,7 @@ jobs:
           git clone https://github.com/mconsidine/armbian-sunscan-build.git --branch main --depth 1 ./tmp/repo
  
           ls -lha ./tmp/repo
+          echo ${WORK_DIR}
           echo "START OF APP INSTALL"
           
           cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh .          
