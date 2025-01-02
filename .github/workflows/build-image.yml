@@ -141,7 +141,8 @@ jobs:
           ls -lha ./tmp/repo
           echo ${WORK_DIR}
           echo "START OF APP INSTALL"
-          
+          cd ..
+          ls -lha
           cp -a ../pi-gen-sunscan/02-copy-app/00-run.sh .          
           chmod +x 00-run.sh
           sudo ./00-run.sh
