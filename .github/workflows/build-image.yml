@@ -105,7 +105,9 @@ jobs:
 
       - name: Set up folders and scripts in userpatches for customize image script to use
         run: |
+          export ROOTFS=.
           cd ./build
+          export WORK_DIR=.
           mkdir -p ./userpatches
 
           ## Create overlay directory and copy scripts
@@ -137,6 +139,8 @@ jobs:
           #./00-run.sh
           #rm 00-run.sh
           git clone https://github.com/mconsidine/armbian-sunscan-build.git --branch main --depth 1 ./tmp/repo
+          echo $ROOTFS
+          echo $WORK_DIR
           echo "THIS IS ./tmp/repo :" 
           ls -lha ./tmp/repo
           ls -lha /tmp/repo
