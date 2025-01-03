@@ -17,8 +17,8 @@ jobs:
           ls -lha .
           echo "THIS SHOULD BE HOME LEVEL"
           ls -lha /home
-          export $ROOTFS_DIR=/home
-          export $WORK_DIR=/home/.build
+          export $ROOTFS_DIR="/home"
+          export $WORK_DIR="/home/.build"
           echo "ROOTFS_DIR ----> " $ROOTFS_DIR
           echo "WORK_DIR ----> " $WORK_DIR
           {
@@ -46,6 +46,8 @@ jobs:
         #    USE_OVERLAYS=yes \
         #    COMPRESS_OUTPUTIMAGE=xz \
         #    IMAGE_XZ_COMPRESSION_RATIO=6
+          echo "THIS SHOULD BE BUILD"
+          ls -lha
 
       #- name: Upload Armbian image
       #  uses: actions/upload-artifact@v4
