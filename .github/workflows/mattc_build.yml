@@ -77,7 +77,6 @@ jobs:
             RELEASE=bookworm \
             BUILD_MINIMAL=yes \
             KERNEL_CONFIGURE=no \
-      #      USE_OVERLAYS=yes \
             COMPRESS_OUTPUTIMAGE=xz \
             IMAGE_XZ_COMPRESSION_RATIO=6
 
