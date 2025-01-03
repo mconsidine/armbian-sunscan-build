@@ -22,7 +22,8 @@ jobs:
           EOF
           } &&
           chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
-      - nane: tedt
+
+      - name: test
         run:|
           ls -lha
           
