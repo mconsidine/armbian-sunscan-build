@@ -21,22 +21,18 @@ jobs:
           export $WORK_DIR=/home/.build
           echo "ROOTFS_DIR ----> " $ROOTFS_DIR
           echo "WORK_DIR ----> " $WORK_DIR
+          {
           mkdir -p custom-gen-sunscan/01-prepare-repo
           cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
           #!/bin/bash
           git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
           EOF
+          } &&
           chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
-
-      - name: test
-        run: |
-          ls -lha
 
       - name: Clone Armbian build repository
         run: |
           git clone --depth 1 https://github.com/armbian/build.git
-          echo "THIS SHOULD STILL BE HOME DIR"
-          ls -lha
 
       - name: Configure build
         run: |
@@ -50,9 +46,6 @@ jobs:
         #    USE_OVERLAYS=yes \
         #    COMPRESS_OUTPUTIMAGE=xz \
         #    IMAGE_XZ_COMPRESSION_RATIO=6
-          echo "THIS SHOULD BE BUILD"
-          ls -lha
-          ls -lha tmp
 
       #- name: Upload Armbian image
       #  uses: actions/upload-artifact@v4
