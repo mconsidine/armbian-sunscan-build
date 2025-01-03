@@ -41,12 +41,7 @@ jobs:
           ls -lha build
           ls -lha build/userpatches
           ls -lha build/userpatches/overlay
-          
-          #cp -a pi-gen-sunscan ./build/userpatches/overlay
-          #ls -lha ./build/userpatches
-          #ls -lha ./build/userpatches/overlay
-          #ls -lha ./build/userpatches/overlay/pi-gen-sunscan
-          
+
       #- name: Configure build
       #  run: |
       #    cd build
