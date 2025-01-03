@@ -41,24 +41,24 @@ jobs:
       - name: Configure build
         run: |
           cd build
-       #   ./compile.sh EXPERT=yes \
+        #  ./compile.sh EXPERT=yes \
         #    BOARD=rockpi-4bplus \
-       #     BRANCH=current\
+        #    BRANCH=current\
         #    RELEASE=bookworm \
         #    BUILD_MINIMAL=yes \
         #    KERNEL_CONFIGURE=no \
         #    USE_OVERLAYS=yes \
         #    COMPRESS_OUTPUTIMAGE=xz \
-         #   IMAGE_XZ_COMPRESSION_RATIO=6
+        #    IMAGE_XZ_COMPRESSION_RATIO=6
           echo "THIS SHOULD BE BUILD"
           ls -lha
           ls -lha tmp
 
-     # - name: Upload Armbian image
+      #- name: Upload Armbian image
       #  uses: actions/upload-artifact@v4
-        #with:
+      #  with:
       #    name: armbian-image
-       #   path: |
-       #     ./output/images/
-          ##  ./output/images/${{ env.IMAGE_NAME }}*.img
-          ##  ./build/output/images/*.img
+      #    path: |
+      #      ./output/images/
+      #    #  ./output/images/${{ env.IMAGE_NAME }}*.img
+      #    #  ./build/output/images/*.img
