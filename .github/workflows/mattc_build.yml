@@ -32,10 +32,10 @@ jobs:
         run: |
           echo "THIS SHOULD BE BUILD LEVEL"
           ls -lha ./build
-          #cp -a pi-gen-sunscan ./build/userspaces/overlay
-          #ls -lha ./build/userspaces
-          #ls -lha ./build/userspaces/overlay
-          #ls -lha ./build/userspaces/overlay/pi-gen-sunscan
+          #cp -a pi-gen-sunscan ./build/userpatches/overlay
+          #ls -lha ./build/userpatches
+          #ls -lha ./build/userpatches/overlay
+          #ls -lha ./build/userpatches/overlay/pi-gen-sunscan
           
       #- name: Configure build
       #  run: |
