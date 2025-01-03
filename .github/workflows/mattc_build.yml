@@ -52,7 +52,7 @@ jobs:
          #   IMAGE_XZ_COMPRESSION_RATIO=6
           echo "THIS SHOULD BE BUILD"
           ls -lha
-          ls -lha /tmp
+          ls -lha tmp
 
      # - name: Upload Armbian image
       #  uses: actions/upload-artifact@v4
