@@ -1,123 +1,79 @@
 name: Build Armbian for RockPi-4B+
 
 on:
-  #pull_request:
-  #push:
-  #  tags:
-  #    - '*.*.*'
-  #  branches:
-  #    - main  
   workflow_dispatch: # Allows manual triggering of the workflow
-    tags:
-      - '*.*.*'
-    branches:
-      - main
 
 jobs:
   build-armbian:
     runs-on: ubuntu-latest
 
-    #env:
-    #  KEYBOARD_LAYOUT: us
-    #  LOCALE: en_US.UTF-8
-    #  ROOTPWD: rockpi
-    #  FIRST_USER_NAME: admin
-    #  FIRST_USER_PASS: sunscan
-    #  TZ: America/New_York
-    #  STAGE_LIST: stage0 stage1 stage2 ./custom-gen-sunscan
-
     steps:
-      - name: Set version and image filename
-        run: |
-          TAG=$(git describe --tags --exact-match 2>/dev/null || echo "")
-          if [ -n "$TAG" ]; then
-            echo "APP_VERSION=$TAG" >> $GITHUB_ENV
-            echo "IMGFILENAME=sunscan_os_$TAG" >> $GITHUB_ENV
-          else
-            BRANCH=$(git rev-parse --abbrev-ref HEAD)
-            COMMIT=$(git rev-parse --short HEAD)
-            echo "APP_VERSION=${BRANCH}_${COMMIT}" >> $GITHUB_ENV
-            echo "IMGFILENAME=sunscan_os_${BRANCH}_${COMMIT}" >> $GITHUB_ENV
-          fi
-          
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      #- name: Get SunScan setup
+      - name: Get SunScan setup
+        run: |
+          mkdir -p custom-gen-sunscan/01-prepare-repo
+          cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
+          #!/bin/bash
+          git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
+          
+          EOF
+          } &&
+          chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
+          ls -lha
+      #- name: Set up environment
       #  run: |
-      #    mkdir -p custom-gen-sunscan/01-prepare-repo
-      #    cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
-      #    #!/bin/bash
-      #    git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
-      #    
-      #    EOF
-      #    } &&
-      #    chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
-        
-      - name: Set up environment
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            git \
-            curl \
-            unzip \
-            wget \
-            xz-utils
+       #   sudo apt-get update
+       #   sudo apt-get install -y \
+       #     git \
+        #    curl \
+       #     unzip \
+        #    wget \
+         #   xz-utils
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get install -y \
-            gcc \
-            g++ \
-            make \
-            bc \
-            bison \
-            flex \
-            libssl-dev \
-            libncurses5-dev \
-            libncursesw5-dev \
-            qemu-user-static \
-            debootstrap \
-            binfmt-support \
-            build-essential \
-            u-boot-tools \
-            device-tree-compiler
+      #- name: Install dependencies
+        #run: |
+          #sudo apt-get install -y \
+          #  gcc \
+         #   g++ \
+          #  make \
+          #  bc \
+           # bison \
+            #flex \
+           # libssl-dev \
+           # libncurses5-dev \
+         #   libncursesw5-dev \
+          #  qemu-user-static \
+           # debootstrap \
+          #  binfmt-support \
+          #  build-essential \
+          #  u-boot-tools \
+           # device-tree-compiler
 
       - name: Clone Armbian build repository
         run: |
           git clone --depth 1 https://github.com/armbian/build.git
-
-      - name: Configure build
-        run: |
-          cd build
-          ./compile.sh EXPERT=yes \
-            BOARD=rockpi-4bplus \
-            BRANCH=current\
-            RELEASE=buster \
-            BUILD_MINIMAL=yes \
-            KERNEL_CONFIGURE=no \
-            COMPRESS_OUTPUTIMAGE=xz \
-            IMAGE_XZ_COMPRESSION_RATIO=6            
+          ls -lha
+      #- name: Configure build
+       # run: |
+        #  cd build
+       #   ./compile.sh EXPERT=yes \
+        #    BOARD=rockpi-4bplus \
+       #     BRANCH=current\
+        #    RELEASE=bookworm \
+        #    BUILD_MINIMAL=yes \
+        #    KERNEL_CONFIGURE=no \
+        #    COMPRESS_OUTPUTIMAGE=xz \
+         #   IMAGE_XZ_COMPRESSION_RATIO=6
             
-            #ENABLE_SSH=yes \
-            #HOSTNAME=sunscan_test \
-            #IMAGE_NAME=${{ env.IMGFILENAME }}
-            #KEYBOARD_KEYMAP=${{ env.KEYBOARD_KEYMAP }} \
-            #KEYBOARD_LAYOUT=${{ env.KEYBOARD_LAYOUT }} \
-            #LOCALE=${{ env.LOCALE }} \
-            #ROOTPWD=${{ env.ROOTPWD }} \
-            #FIRST_USER_NAME=${{ env.FIRST_USER_NAME }} \
-            #FIRST_USER_PASS=${{ env.FIRST_USER_PASS }} \
-            #TZ=${{ env.TZ }} \
-            #STAGE_LIST=${{ env.STAGE_LIST }}
-            
-          ls -lha ./output/images
+        #  ls -lha output/images
           
-      - name: Upload Armbian image
-        uses: actions/upload-artifact@v4
-        with:
-          name: armbian-image
-          path: |
-            ./output/images/
-          #  ./output/images/${{ env.IMAGE_NAME }}*.img
-          #  ./build/output/images/*.img
+     # - name: Upload Armbian image
+      #  uses: actions/upload-artifact@v4
+        #with:
+      #    name: armbian-image
+       #   path: |
+       #     ./output/images/
+          ##  ./output/images/${{ env.IMAGE_NAME }}*.img
+          ##  ./build/output/images/*.img
