@@ -24,7 +24,7 @@ jobs:
           chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
 
       - name: test
-        run:|
+        run: |
           ls -lha
           
       #- name: Set up environment
