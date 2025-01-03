@@ -68,18 +68,18 @@ jobs:
           ls -lha build/userpatches
           ls -lha build/userpatches/overlay
 
-      #- name: Configure build
-      #  run: |
-      #    cd build
-      #    ./compile.sh EXPERT=yes \
-      #      BOARD=rockpi-4bplus \
-      #      BRANCH=current\
-      #      RELEASE=bookworm \
-      #      BUILD_MINIMAL=yes \
-      #      KERNEL_CONFIGURE=no \
+      - name: Configure build
+        run: |
+          cd build
+          ./compile.sh EXPERT=yes \
+            BOARD=rockpi-4bplus \
+            BRANCH=current\
+            RELEASE=bookworm \
+            BUILD_MINIMAL=yes \
+            KERNEL_CONFIGURE=no \
       #      USE_OVERLAYS=yes \
-      #      COMPRESS_OUTPUTIMAGE=xz \
-      #      IMAGE_XZ_COMPRESSION_RATIO=6
+            COMPRESS_OUTPUTIMAGE=xz \
+            IMAGE_XZ_COMPRESSION_RATIO=6
 
       #- name: Examine folder structure
       #  run: |
