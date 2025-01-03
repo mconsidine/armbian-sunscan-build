@@ -70,7 +70,7 @@ jobs:
 
       - name: Create script to customize OS build
         run: |
-          cat << 'EOF' > ./userpatches/customize-image.sh
+          cat << 'EOF' > build/userpatches/customize-image.sh
           #cat > ./userpatches/customize-image.sh <<-EOF
           #!/bin/bash
           
@@ -104,9 +104,9 @@ jobs:
           #usermod -aG sudo $USERNAME
 
           echo "Customizations applied successfully."
-          ls -lha tmp
-          ls -lha tmp/overlay
-          cat tmp/overlay/00-install/install-packages.sh
+          ls -lha build/tmp
+          ls -lha build/tmp/overlay
+          cat build/tmp/overlay/00-install/install-packages.sh
           EOF
 
       - name: Configure build
