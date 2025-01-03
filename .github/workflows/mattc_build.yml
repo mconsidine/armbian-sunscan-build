@@ -22,6 +22,32 @@ jobs:
           } &&
           chmod +x pi-gen-sunscan/01-prepare-repo/00-run.sh
 
+      - name: Set up install packages script
+        run: |
+          mkdir -p pi-gen-sunscan/00-install
+          cat << 'EOF' > ./pi-gen-sunscan/00-install/install-packages.sh
+          #cat > ./pi-gen-sunscan/00-install/install-packages.sh <<-EOF          
+          #!/bin/bash
+
+          # Path to the 00-packages file
+          PACKAGES_FILE="./00-packages"
+          ls -lha ./
+          echo "WERE NOW HERE"
+          # Check if the packages file exists
+          if [ ! -f "$PACKAGES_FILE" ]; then
+            echo "Packages file not found: $PACKAGES_FILE"
+            exit 1
+          fi
+
+          # Read the packages file and install each package
+          while IFS= read -r package; do
+            if [ -n "$package" ]; then
+              echo "Installing package: $package"
+              sudo apt-get install -y "$package"
+            fi
+          done < "$PACKAGES_FILE"
+          EOF
+
       - name: Clone Armbian build repository
         run: |
           git clone --depth 1 https://github.com/armbian/build.git
