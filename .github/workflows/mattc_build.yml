@@ -26,32 +26,42 @@ jobs:
         run: |
           git clone --depth 1 https://github.com/armbian/build.git
 
-      - name: Configure build
+      - name: Create customized userspaces and overlay scripts
         run: |
-          cd build
-          ./compile.sh EXPERT=yes \
-            BOARD=rockpi-4bplus \
-            BRANCH=current\
-            RELEASE=bookworm \
-            BUILD_MINIMAL=yes \
-            KERNEL_CONFIGURE=no \
-            USE_OVERLAYS=yes \
-            COMPRESS_OUTPUTIMAGE=xz \
-            IMAGE_XZ_COMPRESSION_RATIO=6
-
-      - name: Examine folder structure
-        run: |
-          cd ..
-          echo "THIS SHOULD BE SOURCE LEVEL"
-          ls -lha .
-          export $MASTTCSOURCE_DIR=$PWD
           echo "THIS SHOULD BE BUILD LEVEL"
           ls -lha ./build
-          export $ROOTFS_DIR="."
-          export $WORK_DIR=$PWD
-          echo "SOURCE_DIR ---> $MATTCSOURCE_DIR
-          echo "ROOTFS_DIR ----> " $ROOTFS_DIR
-          echo "WORK_DIR ----> " $WORK_DIR
+          cp -a pi-gen-sunscan ./build/userspaces/overlay
+          ls -lha ./build/userspaces
+          ls -lha ./build/userspaces/overlay
+          ls -lha ./build/userspaces/overlay/pi-gen-sunscan
+          
+      #- name: Configure build
+      #  run: |
+      #    cd build
+      #    ./compile.sh EXPERT=yes \
+      #      BOARD=rockpi-4bplus \
+      #      BRANCH=current\
+      #      RELEASE=bookworm \
+      #      BUILD_MINIMAL=yes \
+      #      KERNEL_CONFIGURE=no \
+      #      USE_OVERLAYS=yes \
+      #      COMPRESS_OUTPUTIMAGE=xz \
+      #      IMAGE_XZ_COMPRESSION_RATIO=6
+
+      #- name: Examine folder structure
+      #  run: |
+      #    cd ..
+      #    echo "THIS SHOULD BE SOURCE LEVEL"
+      #    ls -lha .
+      #    export $MASTTCSOURCE_DIR=$PWD
+      #    echo "THIS SHOULD BE BUILD LEVEL"
+      #    ls -lha ./build
+      #    export $ROOTFS_DIR="."
+      #    export $WORK_DIR=$PWD
+      #    echo "SOURCE_DIR ---> $MATTCSOURCE_DIR
+      #    echo "ROOTFS_DIR ----> " $ROOTFS_DIR
+      #    echo "WORK_DIR ----> " $WORK_DIR
+          
       #- name: Upload Armbian image
       #  uses: actions/upload-artifact@v4
       #  with:
