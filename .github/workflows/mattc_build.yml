@@ -13,21 +13,13 @@ jobs:
 
       - name: Get SunScan setup
         run: |
-          echo "THIS SHOULD BE SOURCE LEVEL"
-          ls -lha .
-          echo "THIS SHOULD BE HOME LEVEL"
-          ls -lha /home
-          export $ROOTFS_DIR="/home"
-          export $WORK_DIR="/home/.build"
-          echo "ROOTFS_DIR ----> " $ROOTFS_DIR
-          echo "WORK_DIR ----> " $WORK_DIR
-          #{
-          #mkdir -p custom-gen-sunscan/01-prepare-repo
-          #cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
-          ##!/bin/bash
-          #git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
-          #EOF
-          #} &&
+          {
+          mkdir -p custom-gen-sunscan/01-prepare-repo
+          cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
+          #!/bin/bash
+          git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
+          EOF
+          } &&
           #chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
 
       - name: Clone Armbian build repository
@@ -37,18 +29,29 @@ jobs:
       - name: Configure build
         run: |
           cd build
-          echo "THIS SHOULD BE BUILD"
-          ls -lha          
-      #    ./compile.sh EXPERT=yes \
-      #      BOARD=rockpi-4bplus \
-      #      BRANCH=current\
-      #      RELEASE=bookworm \
-      #      BUILD_MINIMAL=yes \
-      #      KERNEL_CONFIGURE=no \
-      #      USE_OVERLAYS=yes \
-      #      COMPRESS_OUTPUTIMAGE=xz \
-      #      IMAGE_XZ_COMPRESSION_RATIO=6
+          ./compile.sh EXPERT=yes \
+            BOARD=rockpi-4bplus \
+            BRANCH=current\
+            RELEASE=bookworm \
+            BUILD_MINIMAL=yes \
+            KERNEL_CONFIGURE=no \
+            USE_OVERLAYS=yes \
+            COMPRESS_OUTPUTIMAGE=xz \
+            IMAGE_XZ_COMPRESSION_RATIO=6
 
+      - name: Examine folder structure
+        run: |
+          cd ..
+          echo "THIS SHOULD BE SOURCE LEVEL"
+          ls -lha .
+          export $MASTTCSOURCE_DIR=$PWD
+          echo "THIS SHOULD BE BUILD LEVEL"
+          ls -lha ./build
+          export $ROOTFS_DIR="."
+          export $WORK_DIR=$PWD
+          echo "SOURCE_DIR ---> $MATTCSOURCE_DIR
+          echo "ROOTFS_DIR ----> " $ROOTFS_DIR
+          echo "WORK_DIR ----> " $WORK_DIR
       #- name: Upload Armbian image
       #  uses: actions/upload-artifact@v4
       #  with:
