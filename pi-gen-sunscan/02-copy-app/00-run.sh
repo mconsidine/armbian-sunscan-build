@@ -4,6 +4,7 @@ curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh
 bash nodesource_setup.sh
 apt-get install -y nodejs
 ls -lha ./
+export WORK_DIR=.
 echo ${WORK_DIR}
 cd ${WORK_DIR}/tmp/repo/webapp
 npm install
