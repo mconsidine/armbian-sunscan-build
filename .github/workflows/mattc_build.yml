@@ -13,6 +13,7 @@ jobs:
 
       - name: Get SunScan setup
         run: |
+         {
           mkdir -p custom-gen-sunscan/01-prepare-repo
           cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
           #!/bin/bash
