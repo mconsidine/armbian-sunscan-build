@@ -20,7 +20,7 @@ jobs:
           git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
           EOF
           } &&
-          #chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
+          chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
 
       - name: Clone Armbian build repository
         run: |
