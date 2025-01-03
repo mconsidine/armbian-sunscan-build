@@ -68,7 +68,7 @@ jobs:
           ls -lha build/userpatches
           ls -lha build/userpatches/overlay
 
-- name: Create script to customize OS build
+      - name: Create script to customize OS build
         run: |
           cat << 'EOF' > ./userpatches/customize-image.sh
           #cat > ./userpatches/customize-image.sh <<-EOF
