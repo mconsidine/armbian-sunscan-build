@@ -32,6 +32,15 @@ jobs:
         run: |
           echo "THIS SHOULD BE BUILD LEVEL"
           ls -lha ./build
+          
+      - name: Copy user patches
+        run: |
+          mkdir -p build/userpatches
+          rsync -av pi-gen-sunscan/ build/userpatches/ 
+          ls -lha
+          la -lha build
+          ls -lha build/userpatches
+          
           #cp -a pi-gen-sunscan ./build/userpatches/overlay
           #ls -lha ./build/userpatches
           #ls -lha ./build/userpatches/overlay
