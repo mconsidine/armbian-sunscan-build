@@ -22,7 +22,10 @@ jobs:
           EOF
           } &&
           chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
+      - nane: tedt
+        run:|
           ls -lha
+          
       #- name: Set up environment
       #  run: |
        #   sudo apt-get update
