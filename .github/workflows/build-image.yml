@@ -105,7 +105,7 @@ jobs:
 
       - name: Set up folders and scripts in userpatches for customize image script to use
         run: |
-          export ROOTFS=.
+          export ROOTFS_DIR=..
           cd ./build
           export WORK_DIR=.
           mkdir -p ./userpatches
