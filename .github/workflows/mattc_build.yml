@@ -21,14 +21,14 @@ jobs:
           export $WORK_DIR="/home/.build"
           echo "ROOTFS_DIR ----> " $ROOTFS_DIR
           echo "WORK_DIR ----> " $WORK_DIR
-          {
-          mkdir -p custom-gen-sunscan/01-prepare-repo
-          cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
-          #!/bin/bash
-          git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
-          EOF
-          } &&
-          chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
+          #{
+          #mkdir -p custom-gen-sunscan/01-prepare-repo
+          #cat > custom-gen-sunscan/01-prepare-repo/00-run.sh <<-EOF
+          ##!/bin/bash
+          #git clone ${{ github.server_url }}/${{ github.repository }}.git --branch ${{ github.head_ref }} --depth 1 \${WORK_DIR}/tmp/repo
+          #EOF
+          #} &&
+          #chmod +x custom-gen-sunscan/01-prepare-repo/00-run.sh
 
       - name: Clone Armbian build repository
         run: |
@@ -37,17 +37,17 @@ jobs:
       - name: Configure build
         run: |
           cd build
-        #  ./compile.sh EXPERT=yes \
-        #    BOARD=rockpi-4bplus \
-        #    BRANCH=current\
-        #    RELEASE=bookworm \
-        #    BUILD_MINIMAL=yes \
-        #    KERNEL_CONFIGURE=no \
-        #    USE_OVERLAYS=yes \
-        #    COMPRESS_OUTPUTIMAGE=xz \
-        #    IMAGE_XZ_COMPRESSION_RATIO=6
           echo "THIS SHOULD BE BUILD"
-          ls -lha
+          ls -lha          
+      #    ./compile.sh EXPERT=yes \
+      #      BOARD=rockpi-4bplus \
+      #      BRANCH=current\
+      #      RELEASE=bookworm \
+      #      BUILD_MINIMAL=yes \
+      #      KERNEL_CONFIGURE=no \
+      #      USE_OVERLAYS=yes \
+      #      COMPRESS_OUTPUTIMAGE=xz \
+      #      IMAGE_XZ_COMPRESSION_RATIO=6
 
       #- name: Upload Armbian image
       #  uses: actions/upload-artifact@v4
