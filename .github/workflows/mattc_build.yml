@@ -68,6 +68,47 @@ jobs:
           ls -lha build/userpatches
           ls -lha build/userpatches/overlay
 
+- name: Create script to customize OS build
+        run: |
+          cat << 'EOF' > ./userpatches/customize-image.sh
+          #cat > ./userpatches/customize-image.sh <<-EOF
+          #!/bin/bash
+          
+          # Set timezone
+          echo "Setting timezone to America/New_York..."
+          echo "America/New_York" > /etc/timezone
+          ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
+
+          # Set locale
+          echo "Setting locale to en_US.UTF-8..."
+          sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+          locale-gen
+          update-locale LANG=en_US.UTF-8
+
+          # Enable SSH
+          echo "Enabling SSH..."
+          systemctl enable ssh
+          systemctl start ssh
+
+          # Set hostname
+          echo "Setting hostname to sunscan-armbian..."
+          echo "sunscan-armbian" > /etc/hostname
+          sed -i 's/127.0.1.1.*/127.0.1.1\tsunscan-armbian/' /etc/hosts
+
+          ## Create an initial user
+          #USERNAME="admin"
+          #PASSWORD="sunscan"  # Change to a secure password
+          #echo "Creating initial user $USERNAME..."
+          #useradd -m -s /bin/bash $USERNAME
+          #echo "$USERNAME:$PASSWORD" | chpasswd
+          #usermod -aG sudo $USERNAME
+
+          echo "Customizations applied successfully."
+          ls -lha tmp
+          ls -lha tmp/overlay
+          cat tmp/overlay/00-install/install-packages.sh
+          EOF
+
       - name: Configure build
         run: |
           cd build
